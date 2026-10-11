@@ -8,6 +8,8 @@ Fundação funcional com painéis `admin` e `user`, login, MFA TOTP obrigatório
 
 **Telefonia, conversa por voz, transferências, SMS e cobrança ainda não estão conectados.** Twilio foi escolhido. ElevenLabs Agents e OpenAI Realtime são candidatos para a conversa. Asaas permanece candidato para cobrança em sandbox. O ambiente local funciona sem chaves externas e não dispara chamadas ou pagamentos.
 
+O receptor Asaas `POST /webhooks/asaas/events` já autentica e guarda eventos sem duplicação, mas permanece desativado. Precisa de hospedagem HTTPS, cadastro e callback real; processamento de assinaturas está pendente. Veja [configuração do webhook sandbox](docs/engineering/ASAAS-WEBHOOK-SETUP.md).
+
 ## Iniciar desenvolvimento
 
 Requisitos: Node.js 22.12+ (validado com 24.19), pnpm 10.32.1 e Docker com Compose. Na raiz:
@@ -75,6 +77,7 @@ docs                PRD, decisões, gates e operação
 - [Estado de implementação e gates](docs/engineering/GATES.md)
 - [Como conseguir cada credencial](docs/engineering/SECRETS-E-CONEXOES.md)
 - [ElevenLabs: criar chave e escolher a voz](docs/engineering/ELEVENLABS-SETUP.md)
+- [Asaas: URL e cadastro do webhook sandbox](docs/engineering/ASAAS-WEBHOOK-SETUP.md)
 - [Alternativas para voz: ElevenLabs e Realtime](docs/architecture/VOICE-PROVIDERS.md)
 - [Verificações e uso das skills solicitadas](docs/engineering/VALIDACAO.md)
 - [Contrato de interface](docs/design/INTERFACE.md)

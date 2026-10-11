@@ -9,7 +9,14 @@ import { ApiError } from "./errors.js";
 import { tenantRoutes } from "./tenants.js";
 import { settingsRoutes } from "./settings.js";
 import { caseRoutes } from "./cases.js";
-export async function buildApp(pool: pg.Pool, config: ApiConfig) {
+import {
+  asaasWebhookRoutes,
+  type AsaasWebhookConfig,
+} from "./asaas-webhooks.js";
+export async function buildApp(
+  pool: pg.Pool,
+  config: ApiConfig & { asaasWebhook?: AsaasWebhookConfig },
+) {
   const role = await pool.query(
     "SELECT rolsuper,rolbypassrls FROM pg_roles WHERE rolname=current_user",
   );
@@ -62,11 +69,19 @@ export async function buildApp(pool: pg.Pool, config: ApiConfig) {
   });
   app.get("/health", async () => {
     await pool.query("SELECT 1");
-    return { status: "ok", phase: "foundation", telephony: "not_connected" };
+    return {
+      status: "ok",
+      phase: "foundation",
+      telephony: "not_connected",
+      billingWebhook: config.asaasWebhook?.enabled
+        ? "sandbox_receiving_only"
+        : "disabled",
+    };
   });
   await authRoutes(app, pool, config);
   tenantRoutes(app, pool, config.origin);
   settingsRoutes(app, pool);
   caseRoutes(app, pool);
+  asaasWebhookRoutes(app, pool, config.asaasWebhook);
   return app;
 }

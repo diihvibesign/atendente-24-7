@@ -39,7 +39,7 @@ Siga o [passo a passo para criar a chave e escolher a voz](ELEVENLABS-SETUP.md).
    ```
 
 5. Insira o resultado em `ASAAS_WEBHOOK_TOKEN`. Não coloque um valor de exemplo ou a chave da API neste campo.
-6. Na fase de cobrança, com endpoint HTTPS público disponível, cadastre o webhook do Asaas e o mesmo token no campo de autenticação. A implementação validará o header `asaas-access-token` conforme documentação vigente. Não cadastre eventos em URL fictícia.
+6. O receptor `POST /webhooks/asaas/events` está implementado, desativado por padrão. Após publicar a API HTTPS, configure `ASAAS_WEBHOOK_ENABLED=true`, valide o endpoint e cadastre o webhook no sandbox com o mesmo token no campo de autenticação. Veja [URL, cadastro e teste do Asaas](ASAAS-WEBHOOK-SETUP.md). A rota valida `asaas-access-token` e guarda eventos pendentes; não processa assinaturas ainda. Não cadastre eventos em URL fictícia.
 7. Antes de migrar para produção, confirme fornecedor, preços, trial, carência, meios de pagamento e cancelamento. As credenciais de produção precisam ficar em ambiente separado.
 
 ## Banco e proteção do MFA

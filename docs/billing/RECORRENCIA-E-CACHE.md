@@ -14,7 +14,7 @@ Este documento define uma política inicial para orientar implementação. Preç
 
 `incomplete -> trialing (opcional) -> active -> past_due -> active | canceled`
 
-O gateway é autoridade de pagamento; o estado local é uma projeção atualizada por webhooks assinados. Eventos podem chegar duplicados, atrasados ou fora de ordem. Armazenar ID, horário do provedor, payload minimizado e resultado de processamento para idempotência e auditoria. Reconciliar periodicamente com o gateway.
+O gateway é autoridade de pagamento; o estado local é uma projeção atualizada por webhooks autenticados conforme a especificação do fornecedor. No Asaas, o receptor usa token compartilhado via HTTPS, não assinatura HMAC do corpo. Eventos podem chegar duplicados, atrasados ou fora de ordem. Armazenar ID, horário do provedor, payload minimizado e resultado de processamento para idempotência e auditoria. Reconciliar periodicamente com o gateway.
 
 ### Falha, cancelamento e serviço essencial
 
@@ -25,7 +25,7 @@ Cancelamento deve registrar solicitante, motivo opcional, data efetiva, estado d
 ## Fluxo de cobrança
 
 1. Criar sessão de checkout no provedor; não receber dados brutos de cartão.
-2. Validar assinatura do webhook e registrar o evento em tabela de entrada/outbox.
+2. Validar a autenticação do webhook conforme o fornecedor e registrar o evento em tabela de entrada/outbox.
 3. Deduplicar pelo ID do evento, aplicar transição permitida e registrar auditoria.
 4. Processar notificações e atualização de entitlements em fila.
 5. Reconciliar divergências por consulta autenticada ao gateway; nunca corrigir a fatura com base só em mensagem do navegador.

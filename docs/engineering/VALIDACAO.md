@@ -69,4 +69,12 @@ As fontes foram lidas do GitHub. As revisões estão fixadas abaixo para registr
 
 ## Limites de entrega
 
+### Complemento: receptor Asaas sandbox
+
+Em 11/10/2026, foi adicionado `POST /webhooks/asaas/events`, desativado por padrão. A suíte passou com **25 testes**: 17 da fundação e 8 do receptor. Novos cenários verificam desativação/segredo forte, token ausente/incorreto antes de ler o corpo, metadados minimizados, commit antes do 200, reentrega concorrente, conflito de ID, envelope/tamanho, evento de assinatura antigo, falha de armazenamento sem confirmação e grants que impedem alterar/remover/ler dados financeiros.
+
+Migração `002_asaas_webhook_inbox.sql` aplicada e repetida sem alteração. Tipos, lint, formatação e build da API passaram. Smoke do artefato compilado iniciou a API com variáveis injetadas e `.env` ausente, consultou banco no health e confirmou webhook desativado. Não houve mudança no frontend nesta etapa; os checks de navegador acima pertencem à fundação.
+
+O inbox guarda eventos `pending`, sem worker ou atualização de assinaturas. Não há URL pública, credencial Asaas disponível, cadastro ou entrega real. BILL-03 permanece parcial; veja [cadastro e limites do webhook](ASAAS-WEBHOOK-SETUP.md).
+
 Nenhuma chamada, SMS ou cobrança real foi executada. Sem medição de latência de voz, DDD brasileiro contratado, TLS público, fallback humano validado, consentimento/retenção no fornecedor, backup/restauração ou teste de carga. O piloto permanece bloqueado pelos [gates](GATES.md). A publicação do ambiente de desenvolvimento é distinta da publicação da plataforma e da ativação de uma linha telefônica.
