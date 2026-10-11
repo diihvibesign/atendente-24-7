@@ -1,0 +1,22 @@
+{
+  "name": "@atendente/web",
+  "private": true,
+  "scripts": {
+    "dev": "node ../../scripts/web.mjs dev --hostname 0.0.0.0",
+    "build": "node ../../scripts/web.mjs build",
+    "start": "node ../../scripts/web.mjs start --hostname 0.0.0.0",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@atendente/contracts": "workspace:*",
+    "next": "16.4.0",
+    "react": "19.3.0",
+    "react-dom": "19.3.0",
+    "lucide-react": "0.577.0",
+    "@fontsource/dm-sans": "5.2.8"
+  },
+  "devDependencies": {
+    "@types/react": "19.2.14",
+    "@types/react-dom": "19.2.3"
+  }
+}
